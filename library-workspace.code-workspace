@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"name": "eureka-server",
+			"path": "eureka-server"
+		},
+		{
+			"name": "movies",
+			"path": "movies"
+		},
+		{
+			"name": "gateway-server",
+			"path": "gateway-server"
+		},
+		{
+			"name": "library-project",
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}
