@@ -20,9 +20,9 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(movieRepository.count() == 0) {
-            movieRepository.save(new Movie(null, "Inception", LocalDate.of(2010, 7, 16), 148, 9, "Mind-bending thriller"));
-            movieRepository.save(new Movie(null, "The Matrix", LocalDate.of(1999, 3, 31), 136, 10, "Sci-fi classic"));
-            movieRepository.save(new Movie(null, "Interstellar", LocalDate.of(2014, 11, 7), 169, 9, "Epic space journey"));
+            movieRepository.save(new Movie(0L, "Inception", LocalDate.of(2010, 7, 16), 148, 9, "Mind-bending thriller"));
+            movieRepository.save(new Movie(1L, "The Matrix", LocalDate.of(1999, 3, 31), 136, 10, "Sci-fi classic"));
+            movieRepository.save(new Movie(2L, "Interstellar", LocalDate.of(2014, 11, 7), 169, 9, "Epic space journey"));
             System.out.println("Dummy movies added!");
         }
     }
