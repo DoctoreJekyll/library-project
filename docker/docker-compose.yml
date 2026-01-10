@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   movies-db:
@@ -25,5 +24,32 @@ services:
     volumes:
       - gamesdb-db-data:/var/lib/postgresql/data
 
+  books-db:
+    image: postgres:15
+    container_name: books-db
+    environment:
+      POSTGRES_DB: booksdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5434:5434"
+    volumes:
+      - books-db-data:/var/lib/postgresql/data
+
+  series-db:
+    image: postgres:15
+    container_name: series-db
+    environment:
+      POSTGRES_DB: seriesdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5435:5435"
+    volumes:
+      - series-db-data:/var/lib/postgresql/data
+
 volumes:
   movies-db-data:
+  games-db-data:
+  books-db-data:
+  series-db-data:
