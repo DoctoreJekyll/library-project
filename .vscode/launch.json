@@ -2,13 +2,21 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BooksApplication",
+            "request": "launch",
+            "mainClass": "com.jose.library.books.BooksApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-EurekaServerApplication<eureka-server>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.library.eureka.EurekaServerApplication",
             "projectName": "eureka-server",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=53714 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=eureka-server"
         },
         {
             "type": "java",
@@ -18,7 +26,8 @@
             "mainClass": "com.jose.library.movies.MoviesApplication",
             "projectName": "movies",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=63223 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=movies"
         },
         {
             "type": "java",
@@ -27,6 +36,27 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.jose.library.games.GamesApplication",
             "projectName": "games",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=58021 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=games"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SeriesApplication<series>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.jose.library.series.SeriesApplication",
+            "projectName": "series",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BooksApplication<books>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.jose.library.books.BooksApplication",
+            "projectName": "books",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
