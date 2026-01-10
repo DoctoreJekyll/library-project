@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  movies-db:
+    image: postgres:15
+    container_name: movies-db
+    environment:
+      POSTGRES_DB: moviesdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - movies-db-data:/var/lib/postgresql/data
+
+  games-db:
+    image: postgres:15
+    container_name: games-db
+    environment:
+      POSTGRES_DB: gamesdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5433:5433"
+    volumes:
+      - gamesdb-db-data:/var/lib/postgresql/data
+
+volumes:
+  movies-db-data:
