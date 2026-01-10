@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jose.library.books.model.Books;
-import com.jose.library.books.services.BooksServices;
+import com.jose.library.books.services.BooksServicesImpl;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/books")
 public class BooksController {
 
-    private final BooksServices booksServices;
+    private final BooksServicesImpl booksServices;
 
-    public BooksController(BooksServices booksServices) {
+    public BooksController(BooksServicesImpl booksServices) {
         this.booksServices = booksServices;
     }
 
