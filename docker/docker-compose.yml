@@ -20,9 +20,9 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: root
     ports:
-      - "5433:5433"
+      - "5433:5432"
     volumes:
-      - gamesdb-db-data:/var/lib/postgresql/data
+      - games-db-data:/var/lib/postgresql/data
 
   books-db:
     image: postgres:15
@@ -32,7 +32,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: root
     ports:
-      - "5434:5434"
+      - "5434:5432"
     volumes:
       - books-db-data:/var/lib/postgresql/data
 
@@ -44,7 +44,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: root
     ports:
-      - "5435:5435"
+      - "5435:5432"
     volumes:
       - series-db-data:/var/lib/postgresql/data
 
