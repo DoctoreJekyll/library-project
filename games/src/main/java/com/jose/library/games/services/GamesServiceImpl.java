@@ -3,9 +3,12 @@ package com.jose.library.games.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.jose.library.games.model.Games;
 import com.jose.library.games.repositories.GamesRepository;
 
+@Service
 public class GamesServiceImpl implements GamesService {
 
     private final GamesRepository gamesRepository;

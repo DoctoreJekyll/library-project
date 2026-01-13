@@ -19,7 +19,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(booksRepository.count() == 0) {
-            booksRepository.save(new Books(0L, "Mistborn", "Brandon Sanderson", 541, 5, "An epic fantasy novel with a unique magic system."));
+            booksRepository.save(new Books(null, "Mistborn", "Brandon Sanderson", 541, 5, "An epic fantasy novel with a unique magic system."));
             System.out.println("Dummy books added!");
         }
     }

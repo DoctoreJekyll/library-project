@@ -18,7 +18,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(gamesRepository.count() == 0) {
-            gamesRepository.save(new Games(0L, "The Legend of Zelda: Ocarina of Time", 12.5f, 9, "Epic adventure"));
+            gamesRepository.save(new Games(null, "The Legend of Zelda: Ocarina of Time", 12.5f, 9, "Epic adventure"));
             System.out.println("Dummy games added!");
         }
     }

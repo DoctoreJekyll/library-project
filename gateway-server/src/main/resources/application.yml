@@ -1,17 +1,32 @@
 spring:
   application:
     name: gateway-server
-    
+
   cloud:
     gateway:
       server:
         webflux:
           routes:
-            - id: movies
+
+            - id: movies-service
               uri: lb://movies
               predicates:
                 - Path=/movies/**
-                - Method=GET
+
+            - id: series-service
+              uri: lb://series
+              predicates:
+                - Path=/series/**
+
+            - id: books-service
+              uri: lb://books
+              predicates:
+                - Path=/books/**
+            
+            - id: games-service
+              uri: lb://games
+              predicates:
+                - Path=/games/**
 
 server:
   port: 8765
