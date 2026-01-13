@@ -1,0 +1,54 @@
+package com.jose.library.auth.services;
+
+import com.jose.library.auth.model.Role;
+import com.jose.library.auth.model.User;
+import com.jose.library.auth.repository.RoleRepository;
+import com.jose.library.auth.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Configuration
+@RequiredArgsConstructor
+public class DataLoader {
+
+    private final PasswordEncoder passwordEncoder;
+
+    @Bean
+    CommandLineRunner loadData(
+            RoleRepository roleRepository,
+            UserRepository userRepository
+    ) {
+        return args -> {
+
+            Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_USER")));
+
+            Role adminRole = roleRepository.findByName("ROLE_ADMIN")
+                .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_ADMIN")));
+
+            if (userRepository.findByUsername("jose").isEmpty()) {
+                User user = new User();
+                user.setUsername("jose");
+                user.setPassword(passwordEncoder.encode("1234"));
+                user.setRoles(Set.of(userRole));
+                user.setCreatedAt(LocalDateTime.now());
+                userRepository.save(user);
+            }
+
+            if (userRepository.findByUsername("admin").isEmpty()) {
+                User admin = new User();
+                admin.setUsername("admin");
+                admin.setPassword(passwordEncoder.encode("admin123"));
+                admin.setRoles(Set.of(adminRole));
+                admin.setCreatedAt(LocalDateTime.now());
+                userRepository.save(admin);
+            }
+        };
+    }
+}

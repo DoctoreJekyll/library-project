@@ -48,8 +48,22 @@ services:
     volumes:
       - series-db-data:/var/lib/postgresql/data
 
+
+  auth-db:
+    image: postgres:15
+    container_name: auth-db
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5436:5432"
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+
 volumes:
   movies-db-data:
   games-db-data:
   books-db-data:
   series-db-data:
+  auth-db-data:
