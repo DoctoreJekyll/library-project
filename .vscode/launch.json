@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AuthApplication",
+            "request": "launch",
+            "mainClass": "com.jose.library.auth.AuthApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "BooksApplication",
             "request": "launch",
             "mainClass": "com.jose.library.books.BooksApplication",
@@ -48,7 +55,8 @@
             "mainClass": "com.jose.library.series.SeriesApplication",
             "projectName": "series",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60760 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=series"
         },
         {
             "type": "java",
@@ -57,6 +65,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.jose.library.books.BooksApplication",
             "projectName": "books",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60747 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=books"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-GatewayServerApplication<gateway-server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.jose.library.gateway.GatewayServerApplication",
+            "projectName": "gateway-server",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
