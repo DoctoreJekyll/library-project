@@ -7,26 +7,63 @@ spring:
       server:
         webflux:
           routes:
+          # ---------- AUTH ----------
+          - id: auth-service
+            uri: lb://auth
+            predicates:
+              - Path=/auth/**
 
-            - id: movies-service
-              uri: lb://movies
-              predicates:
-                - Path=/movies/**
+          # ---------- MOVIES ----------
+          - id: movies-public
+            uri: lb://movies
+            predicates:
+              - Path=/movies/user/**
 
-            - id: series-service
-              uri: lb://series
-              predicates:
-                - Path=/series/**
+          - id: movies-private
+            uri: lb://movies
+            predicates:
+              - Path=/movies/**
+            filters:
+              - JwtAuthenticationFilter
 
-            - id: books-service
-              uri: lb://books
-              predicates:
-                - Path=/books/**
-            
-            - id: games-service
-              uri: lb://games
-              predicates:
-                - Path=/games/**
+          # ---------- SERIES ----------
+          - id: series-public
+            uri: lb://series
+            predicates:
+              - Path=/series/user/**
+
+          - id: series-private
+            uri: lb://series
+            predicates:
+              - Path=/series/**
+            filters:
+              - JwtAuthenticationFilter
+
+          # ---------- BOOKS ----------
+          - id: books-public
+            uri: lb://books
+            predicates:
+              - Path=/books/user/**
+
+          - id: books-private
+            uri: lb://books
+            predicates:
+              - Path=/books/**
+            filters:
+              - JwtAuthenticationFilter
+
+          # ---------- GAMES ----------
+          - id: games-public
+            uri: lb://games
+            predicates:
+              - Path=/games/user/**
+
+          - id: games-private
+            uri: lb://games
+            predicates:
+              - Path=/games/**
+            filters:
+              - JwtAuthenticationFilter
 
 server:
   port: 8765
