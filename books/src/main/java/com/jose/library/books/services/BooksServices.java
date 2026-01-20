@@ -9,9 +9,9 @@ import com.jose.library.books.model.Books;
 
 @Service
 public interface BooksServices {
-    List<Books> getAllBooks();
-    Optional<Books> getBookById(Long id);
-    Books createBook(Books book);
-    Books updateBook(Long id, Books book);
-    void deleteBook(Long id);
+    List<Books> getBooksByUsername(String username);
+    Optional<Books> getBookByIdAndUsername(Long id, String username);
+    Books createBook(Books book, String username);
+    Books updateBook(Long id, Books book, String username);
+    void deleteBook(Long id, String username);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -30,22 +31,22 @@ public class GamesController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getMyGames(@RequestBody String user) {
+    public ResponseEntity<?> getMyGames(@RequestHeader("X-Auth-User") String user) {
         return ResponseEntity.ok(gamesService.getGamesByUsername(user));
     }
 
     @PostMapping()
-    public ResponseEntity<?> postMethodName(@RequestBody Games games, @RequestBody String user) {
+    public ResponseEntity<?> postMethodName(@RequestBody Games games, @RequestHeader("X-Auth-User") String user) {
         return ResponseEntity.ok(gamesService.createGame(games, user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateGames(@PathVariable Long id, @RequestBody Games games, @RequestBody String user) {
+    public ResponseEntity<?> updateGames(@PathVariable Long id, @RequestBody Games games, @RequestHeader("X-Auth-User") String user) {
         return ResponseEntity.ok(gamesService.updateGame(id, games, user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteGames(@PathVariable Long id, @RequestBody String user) {
+    public ResponseEntity<?> deleteGames(@PathVariable Long id, @RequestHeader("X-Auth-User") String user) {
         gamesService.deleteGame(id, user);
         return ResponseEntity.ok().build();
     }
