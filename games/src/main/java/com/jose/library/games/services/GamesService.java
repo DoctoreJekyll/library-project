@@ -9,9 +9,9 @@ import com.jose.library.games.model.Games;
 
 @Service
 public interface GamesService {
-    List<Games> getAllGames();
-    Optional<Games> getGameById(Long id);
-    Games createGame(Games game);
-    Games updateGame(Long id, Games game);
-    void deleteGame(Long id);
+    List<Games> getGamesByUsername(String username);
+    Optional<Games> getGameByIdAndUsername(Long id, String username);
+    Games createGame(Games game, String username);
+    Games updateGame(Long id, Games game, String username);
+    void deleteGame(Long id, String username);
 }

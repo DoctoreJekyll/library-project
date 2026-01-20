@@ -17,29 +17,34 @@ public class GamesServiceImpl implements GamesService {
         this.gamesRepository = gamesRepository;
     }
 
+
     @Override
-    public List<Games> getAllGames() {
-        List<Games> games = gamesRepository.findAll();
+    public List<Games> getGamesByUsername(String username) {
+        List<Games> games = gamesRepository.findByUsername(username);
         return games;
     }
 
+
     @Override
-    public Optional<Games> getGameById(Long id) {
-        Optional<Games> game = gamesRepository.findById(id);
+    public Optional<Games> getGameByIdAndUsername(Long id, String username) {
+        Optional<Games> game = gamesRepository.findByIdAndUsername(id, username);
         if (game.isPresent()) {
             return game;
         }
         return Optional.empty();
     }
 
+
     @Override
-    public Games createGame(Games game) {
+    public Games createGame(Games game, String username) {
+        game.setUsername(username);
         return gamesRepository.save(game);
     }
 
+
     @Override
-    public Games updateGame(Long id, Games game) {
-        Games existingGame = gamesRepository.findById(id).orElseThrow(() -> new RuntimeException("Game not found"));
+    public Games updateGame(Long id, Games game, String username) {
+        Games existingGame = gamesRepository.findByIdAndUsername(id, username).orElseThrow(() -> new RuntimeException("Game not found"));
 
         existingGame.setTitle(game.getTitle());
         existingGame.setDurationInHours(game.getDurationInHours());
@@ -49,9 +54,11 @@ public class GamesServiceImpl implements GamesService {
         return gamesRepository.save(existingGame);
     }
 
+
     @Override
-    public void deleteGame(Long id) {
-        gamesRepository.deleteById(id);
+    public void deleteGame(Long id, String username) {
+        Games existingGame = gamesRepository.findByIdAndUsername(id, username).orElseThrow(() -> new RuntimeException("Game not found"));
+        gamesRepository.delete(existingGame);
     }
 
 }

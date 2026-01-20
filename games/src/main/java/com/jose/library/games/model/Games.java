@@ -1,5 +1,6 @@
 package com.jose.library.games.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,4 +26,7 @@ public class Games {
     private float durationInHours;
     private int rating;
     private String review;
+
+    @Column(nullable = false)
+    private String username;
 }

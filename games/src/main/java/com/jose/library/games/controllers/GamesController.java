@@ -25,30 +25,30 @@ public class GamesController {
         this.gamesService = gamesService;
     }
 
-    @GetMapping()
-    public ResponseEntity<?> getAllGames() {
-        return ResponseEntity.ok(gamesService.getAllGames());
+    @GetMapping("user/{username}")
+    public ResponseEntity<?> getGamesByUsername(@PathVariable("username") String username) {
+        return ResponseEntity.ok(gamesService.getGamesByUsername(username));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getGameById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(gamesService.getGameById(id));
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyGames(@RequestBody String user) {
+        return ResponseEntity.ok(gamesService.getGamesByUsername(user));
     }
 
     @PostMapping()
-    public ResponseEntity<?> saveGame(@RequestBody Games games) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(gamesService.createGame(games));
+    public ResponseEntity<?> postMethodName(@RequestBody Games games, @RequestBody String user) {
+        return ResponseEntity.ok(gamesService.createGame(games, user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateGame(@PathVariable("id") Long id, @RequestBody Games games) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(gamesService.updateGame(id, games));
+    public ResponseEntity<?> updateGames(@PathVariable Long id, @RequestBody Games games, @RequestBody String user) {
+        return ResponseEntity.ok(gamesService.updateGame(id, games, user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteGame(@PathVariable("id") Long id) {
-        gamesService.deleteGame(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteGames(@PathVariable Long id, @RequestBody String user) {
+        gamesService.deleteGame(id, user);
+        return ResponseEntity.ok().build();
     }
 
 }
