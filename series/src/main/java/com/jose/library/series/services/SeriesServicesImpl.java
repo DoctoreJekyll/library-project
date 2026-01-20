@@ -16,30 +16,34 @@ public class SeriesServicesImpl implements SeriesService {
         this.seriesRepository = seriesRepository;
     }
 
-    @Override
-    public List<Series> getAllSeries() {
-        List<Series> seriesList = seriesRepository.findAll();
-        return seriesList;
-    }
 
     @Override
-    public Optional<Series> getSeriesById(Long id) {
-        Optional<Series> series = seriesRepository.findById(id);
+    public List<Series> getSeriesByUsername(String username) {
+        return seriesRepository.findByUsername(username);
+    }
+
+
+
+    @Override
+    public Optional<Series> getSeriesByIdAndUsername(Long id, String username) {
+        Optional<Series> series = seriesRepository.findByIdAndUsername(id, username);
         if (series.isPresent()) {
             return series;
         }
         return Optional.empty();
     }
 
+
+
     @Override
-    public Series createSeries(Series series) {
-        Series newSeries = seriesRepository.save(series);
-        return newSeries;   
+    public Series createSeries(Series series, String username) {
+        series.setUsername(username);
+        return seriesRepository.save(series);
     }
 
     @Override
-    public Series updateSeries(Long id, Series series) {
-        Series existingSeries = seriesRepository.findById(id).orElseThrow(() -> new RuntimeException("Series not found"));
+    public Series updateSeries(Long id, Series series, String username) {
+        Series existingSeries = seriesRepository.findByIdAndUsername(id, username).orElseThrow(() -> new RuntimeException("Series not found"));
         existingSeries.setTitle(series.getTitle());
         existingSeries.setEpisodes(series.getEpisodes());
         existingSeries.setSeasons(series.getSeasons());
@@ -48,9 +52,11 @@ public class SeriesServicesImpl implements SeriesService {
         return seriesRepository.save(existingSeries);
     }
 
+
     @Override
-    public void deleteSeries(Long id) {
-        seriesRepository.deleteById(id);
+    public void deleteSeries(Long id, String username) {
+        Series existingSeries = seriesRepository.findByIdAndUsername(id, username).orElseThrow(() -> new RuntimeException("Series not found"));
+        seriesRepository.delete(existingSeries);
     }
 
 }

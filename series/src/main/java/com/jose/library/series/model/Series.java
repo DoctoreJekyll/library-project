@@ -1,5 +1,6 @@
 package com.jose.library.series.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,5 +27,8 @@ public class Series {
     private int episodes;
     private int rating;
     private String review;
+
+    @Column(nullable = false)
+    private String username;
 
 }

@@ -9,9 +9,9 @@ import com.jose.library.series.model.Series;
 
 @Service
 public interface SeriesService {
-    List<Series> getAllSeries();
-    Optional<Series> getSeriesById(Long id);
-    Series createSeries(Series series);
-    Series updateSeries(Long id, Series series);
-    void deleteSeries(Long id);
+    List<Series> getSeriesByUsername(String username);
+    Optional<Series> getSeriesByIdAndUsername(Long id, String username);
+    Series createSeries(Series series, String username);
+    Series updateSeries(Long id, Series series, String username);
+    void deleteSeries(Long id, String username);
 }
