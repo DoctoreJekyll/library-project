@@ -18,14 +18,14 @@ public class MovieServicesImpl implements MovieServices {
     }
 
     @Override
-    public List<Movie> getAllMovies() {
-        List<Movie> movies = movieRepository.findAll();
+    public List<Movie> getMoviesByUsername(String username) {
+        List<Movie> movies = movieRepository.findByUsername(username);
         return movies;
     }
 
     @Override
-    public Optional<Movie> getMovieById(Long id) {
-        Optional<Movie> movie = movieRepository.findById(id);
+    public Optional<Movie> getMovieByIdAndUsername(Long id, String username) {
+        Optional<Movie> movie = movieRepository.findByIdAndUsername(id, username);
         if (movie.isPresent()) {
             return movie;
         }
@@ -33,13 +33,14 @@ public class MovieServicesImpl implements MovieServices {
     }
 
     @Override
-    public Movie saveMovie(Movie movie) {
+    public Movie saveMovie(Movie movie, String username) {
+        movie.setUsername(username);
         return movieRepository.save(movie);
     }
 
     @Override
-    public Movie updateMovie(Long id, Movie movie) {
-        Movie existingMovie = movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
+    public Movie updateMovie(Long id, Movie movie, String username) {
+        Movie existingMovie = movieRepository.findByIdAndUsername(id, username).orElseThrow(() -> new RuntimeException("Movie not found"));
 
         existingMovie.setName(movie.getName());
         existingMovie.setViewDate(movie.getViewDate());
@@ -51,8 +52,9 @@ public class MovieServicesImpl implements MovieServices {
     }
 
     @Override
-    public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
+    public void deleteMovie(Long id, String username) {
+        Movie existingMovie = movieRepository.findByIdAndUsername(id, username).orElseThrow(() -> new RuntimeException("Movie not found"));
+        movieRepository.delete(existingMovie);
     }
 
 }

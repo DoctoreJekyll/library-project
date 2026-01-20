@@ -6,14 +6,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jose.library.movies.model.Movie;
 import com.jose.library.movies.services.MovieServicesImpl;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/movies")
@@ -25,30 +26,31 @@ public class MoviesController {
         this.movieServices = movieServices;
     }
 
-    @GetMapping()
-    public ResponseEntity<?> getListOfAllMovies() {
-        return ResponseEntity.ok(movieServices.getAllMovies());
+
+    @GetMapping("user/{username}")
+    public ResponseEntity<?> getMoviesByUsername(@PathVariable("username") String username) {
+        return ResponseEntity.ok(movieServices.getMoviesByUsername(username));
     }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(movieServices.getMovieById(id).orElseThrow());
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyMovies(@RequestHeader("X-Auth-User") String user) {
+        return ResponseEntity.ok(movieServices.getMoviesByUsername(user));
     }
-    
+
     @PostMapping()
-    public ResponseEntity<Movie> postMovie(@RequestBody Movie movie) {
-        Movie savedMovie = movieServices.saveMovie(movie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
+    public ResponseEntity<?> postMethodName(@RequestBody Movie movie, @RequestHeader("X-Auth-User") String user) {
+        return ResponseEntity.ok(movieServices.saveMovie(movie, user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> putMethodName(@PathVariable("id") Long id, @RequestBody Movie movie) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(movieServices.updateMovie(id, movie));
+    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody Movie movie, @RequestHeader("X-Auth-User") String user) {
+        return ResponseEntity.ok(movieServices.updateMovie(id, movie, user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMovie(@PathVariable("id") Long id) {
-        movieServices.deleteMovie(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteMovie(@PathVariable Long id, @RequestHeader("X-Auth-User") String user) {
+        movieServices.deleteMovie(id, user);
+        return ResponseEntity.ok().build();
     }
+
 }

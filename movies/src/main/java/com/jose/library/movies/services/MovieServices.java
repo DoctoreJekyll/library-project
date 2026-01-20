@@ -9,9 +9,9 @@ import com.jose.library.movies.model.Movie;
 
 @Service
 public interface MovieServices {
-    List<Movie> getAllMovies();
-    Optional<Movie> getMovieById(Long id);
-    Movie saveMovie(Movie movie);
-    Movie updateMovie(Long id, Movie movie);
-    void deleteMovie(Long id);
+    List<Movie> getMoviesByUsername(String username);
+    Optional<Movie> getMovieByIdAndUsername(Long id, String username);
+    Movie saveMovie(Movie movie, String username);
+    Movie updateMovie(Long id, Movie movie, String username);
+    void deleteMovie(Long id, String username);
 }
