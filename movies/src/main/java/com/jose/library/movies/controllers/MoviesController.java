@@ -3,8 +3,13 @@ package com.jose.library.movies.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jose.library.movies.dtos.MovieRequest;
+import com.jose.library.movies.dtos.MovieResponse;
+import com.jose.library.movies.mappers.MovieMapper;
 import com.jose.library.movies.model.Movie;
 import com.jose.library.movies.services.MovieServicesImpl;
+
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,30 +26,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class MoviesController {
 
     private final MovieServicesImpl movieServices;
+    private final MovieMapper movieMapper;
 
-    public MoviesController(MovieServicesImpl movieServices) {
+    public MoviesController(MovieServicesImpl movieServices, MovieMapper movieMapper) {
         this.movieServices = movieServices;
+        this.movieMapper = movieMapper;
     }
 
 
     @GetMapping("user/{username}")
-    public ResponseEntity<?> getMoviesByUsername(@PathVariable("username") String username) {
-        return ResponseEntity.ok(movieServices.getMoviesByUsername(username));
+    public ResponseEntity<List<MovieResponse>> getMoviesByUsername(@PathVariable("username") String username) {
+        List<MovieResponse> movies = movieServices.getMoviesByUsername(username)
+        .stream()
+        .map(movieMapper::toResponse)
+        .toList();
+
+        return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getMyMovies(@RequestHeader("X-Auth-User") String user) {
-        return ResponseEntity.ok(movieServices.getMoviesByUsername(user));
+    public ResponseEntity<List<MovieResponse>> getMyMovies(@RequestHeader("X-Auth-User") String user) {
+        List<MovieResponse> movies = movieServices.getMoviesByUsername(user)
+        .stream()
+        .map(movieMapper::toResponse)
+        .toList();
+
+        return ResponseEntity.ok(movies);
     }
 
     @PostMapping()
-    public ResponseEntity<?> postMethodName(@RequestBody Movie movie, @RequestHeader("X-Auth-User") String user) {
-        return ResponseEntity.ok(movieServices.saveMovie(movie, user));
+    public ResponseEntity<MovieResponse> postMovie(@RequestBody MovieRequest movieRequest, @RequestHeader("X-Auth-User") String user) {
+        Movie movie = movieMapper.toEntity(movieRequest,  user);
+        Movie savedMovie = movieServices.saveMovie(movie, user);
+        MovieResponse movieResponse = movieMapper.toResponse(savedMovie);
+        
+        return ResponseEntity.ok(movieResponse);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody Movie movie, @RequestHeader("X-Auth-User") String user) {
-        return ResponseEntity.ok(movieServices.updateMovie(id, movie, user));
+    public ResponseEntity<MovieResponse> updateMovie(@PathVariable Long id, @RequestBody MovieRequest movieRequest, @RequestHeader("X-Auth-User") String user) {
+        Movie movie = movieMapper.toEntity(movieRequest,  user);
+        Movie updatedMovie = movieServices.updateMovie(id, movie, user);
+        MovieResponse movieResponse = movieMapper.toResponse(updatedMovie);
+
+        return ResponseEntity.ok(movieResponse);
     }
 
     @DeleteMapping("/{id}")
