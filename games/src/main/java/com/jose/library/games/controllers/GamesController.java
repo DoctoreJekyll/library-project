@@ -3,8 +3,13 @@ package com.jose.library.games.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jose.library.games.dtos.GamesRequest;
+import com.jose.library.games.dtos.GamesResponse;
+import com.jose.library.games.mappers.GamesMapper;
 import com.jose.library.games.model.Games;
 import com.jose.library.games.services.GamesServiceImpl;
+
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,28 +26,47 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class GamesController {
 
     private final GamesServiceImpl gamesService;
-    public GamesController(GamesServiceImpl gamesService) {
+    private final GamesMapper gamesMapper;
+
+    public GamesController(GamesServiceImpl gamesService, GamesMapper gamesMapper) {
         this.gamesService = gamesService;
+        this.gamesMapper = gamesMapper;
     }
 
     @GetMapping("user/{username}")
-    public ResponseEntity<?> getGamesByUsername(@PathVariable("username") String username) {
-        return ResponseEntity.ok(gamesService.getGamesByUsername(username));
+    public ResponseEntity<List<GamesResponse>> getGamesByUsername(@PathVariable("username") String username) {
+        List<GamesResponse> games = gamesService.getGamesByUsername(username)
+        .stream()
+        .map(gamesMapper::toResponse)
+        .toList();
+
+        return ResponseEntity.ok(games);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getMyGames(@RequestHeader("X-Auth-User") String user) {
-        return ResponseEntity.ok(gamesService.getGamesByUsername(user));
+    public ResponseEntity<List<GamesResponse>> getMyGames(@RequestHeader("X-Auth-User") String user) {
+        List<GamesResponse> games = gamesService.getGamesByUsername(user)
+        .stream()
+        .map(gamesMapper::toResponse)
+        .toList();
+
+        return ResponseEntity.ok(games);
     }
 
     @PostMapping()
-    public ResponseEntity<?> postMethodName(@RequestBody Games games, @RequestHeader("X-Auth-User") String user) {
-        return ResponseEntity.ok(gamesService.createGame(games, user));
+    public ResponseEntity<GamesResponse> postMethodName(@RequestBody GamesRequest games, @RequestHeader("X-Auth-User") String user) {
+        Games game = gamesMapper.toEntity(games,  user);
+        Games savedGame = gamesService.createGame(game, user);
+        GamesResponse gamesResponse = gamesMapper.toResponse(savedGame);
+        return ResponseEntity.ok(gamesResponse);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateGames(@PathVariable Long id, @RequestBody Games games, @RequestHeader("X-Auth-User") String user) {
-        return ResponseEntity.ok(gamesService.updateGame(id, games, user));
+    public ResponseEntity<GamesResponse> updateGames(@PathVariable Long id, @RequestBody GamesRequest games, @RequestHeader("X-Auth-User") String user) {
+        Games game = gamesMapper.toEntity(games, user);
+        Games updatedGame = gamesService.updateGame(id, game, user);
+        GamesResponse gamesResponse = gamesMapper.toResponse(updatedGame);
+        return ResponseEntity.ok(gamesResponse);
     }
 
     @DeleteMapping("/{id}")
